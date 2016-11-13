@@ -1,427 +1,182 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-    </head>
-    <body>
-        <meta charset="utf-8">
         <title>Your First WebSocket!</title>
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+        
         <link rel="stylesheet" href="css/foundation.css">
     	<link rel="stylesheet" href="css/app.css">
     
+    </head>
+    <body>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
    		<script type="text/javascript">
+   		var COMPTEURS_INIT;
+   		
         var LANGUAGE_BY_LOCALE = {
-        	    af_NA: "Afrikaans (Namibia)",
-        	    af_ZA: "Afrikaans (South Africa)",
-        	    af: "Afrikaans",
-        	    ak_GH: "Akan (Ghana)",
-        	    ak: "Akan",
-        	    sq_AL: "Albanian (Albania)",
-        	    sq: "Albanian",
-        	    am_ET: "Amharic (Ethiopia)",
-        	    am: "Amharic",
-        	    ar_DZ: "Arabic (Algeria)",
-        	    ar_BH: "Arabic (Bahrain)",
-        	    ar_EG: "Arabic (Egypt)",
-        	    ar_IQ: "Arabic (Iraq)",
-        	    ar_JO: "Arabic (Jordan)",
-        	    ar_KW: "Arabic (Kuwait)",
-        	    ar_LB: "Arabic (Lebanon)",
-        	    ar_LY: "Arabic (Libya)",
-        	    ar_MA: "Arabic (Morocco)",
-        	    ar_OM: "Arabic (Oman)",
-        	    ar_QA: "Arabic (Qatar)",
-        	    ar_SA: "Arabic (Saudi Arabia)",
-        	    ar_SD: "Arabic (Sudan)",
-        	    ar_SY: "Arabic (Syria)",
-        	    ar_TN: "Arabic (Tunisia)",
-        	    ar_AE: "Arabic (United Arab Emirates)",
-        	    ar_YE: "Arabic (Yemen)",
-        	    ar: "Arabic",
-        	    hy_AM: "Armenian (Armenia)",
-        	    hy: "Armenian",
-        	    as_IN: "Assamese (India)",
-        	    as: "Assamese",
-        	    asa_TZ: "Asu (Tanzania)",
-        	    asa: "Asu",
-        	    az_Cyrl: "Azerbaijani (Cyrillic)",
-        	    az_Cyrl_AZ: "Azerbaijani (Cyrillic, Azerbaijan)",
-        	    az_Latn: "Azerbaijani (Latin)",
-        	    az_Latn_AZ: "Azerbaijani (Latin, Azerbaijan)",
-        	    az: "Azerbaijani",
-        	    bm_ML: "Bambara (Mali)",
-        	    bm: "Bambara",
-        	    eu_ES: "Basque (Spain)",
-        	    eu: "Basque",
-        	    be_BY: "Belarusian (Belarus)",
-        	    be: "Belarusian",
-        	    bem_ZM: "Bemba (Zambia)",
-        	    bem: "Bemba",
-        	    bez_TZ: "Bena (Tanzania)",
-        	    bez: "Bena",
-        	    bn_BD: "Bengali (Bangladesh)",
-        	    bn_IN: "Bengali (India)",
-        	    bn: "Bengali",
-        	    bs_BA: "Bosnian (Bosnia and Herzegovina)",
-        	    bs: "Bosnian",
-        	    bg_BG: "Bulgarian (Bulgaria)",
-        	    bg: "Bulgarian",
-        	    my_MM: "Burmese (Myanmar [Burma])",
-        	    my: "Burmese",
-        	    ca_ES: "Catalan (Spain)",
-        	    ca: "Catalan",
-        	    tzm: "Central Morocco Tamazight",
-        	    chr_US: "Cherokee (United States)",
-        	    chr: "Cherokee",
-        	    cgg_UG: "Chiga (Uganda)",
-        	    cgg: "Chiga",
-        	    zh: "Chinese",
-        	    kw_GB: "Cornish (United Kingdom)",
-        	    kw: "Cornish",
-        	    hr_HR: "Croatian (Croatia)",
-        	    hr: "Croatian",
-        	    cs_CZ: "Czech (Czech Republic)",
-        	    cs: "Czech",
-        	    da_DK: "Danish (Denmark)",
-        	    da: "Danish",
-        	    nl_BE: "Dutch (Belgium)",
-        	    nl_NL: "Dutch (Netherlands)",
-        	    nl: "Dutch",
-        	    ebu_KE: "Embu (Kenya)",
-        	    ebu: "Embu",
-        	    en_AS: "English (American Samoa)",
-        	    en_AU: "English (Australia)",
-        	    en_BE: "English (Belgium)",
-        	    en_BZ: "English (Belize)",
-        	    en_BW: "English (Botswana)",
-        	    en_CA: "English (Canada)",
-        	    en_GU: "English (Guam)",
-        	    en_HK: "English (Hong Kong SAR China)",
-        	    en_IN: "English (India)",
-        	    en_IE: "English (Ireland)",
-        	    en_JM: "English (Jamaica)",
-        	    en_MT: "English (Malta)",
-        	    en_MH: "English (Marshall Islands)",
-        	    en_MU: "English (Mauritius)",
-        	    en_NA: "English (Namibia)",
-        	    en_NZ: "English (New Zealand)",
-        	    en_MP: "English (Northern Mariana Islands)",
-        	    en_PK: "English (Pakistan)",
-        	    en_PH: "English (Philippines)",
-        	    en_SG: "English (Singapore)",
-        	    en_ZA: "English (South Africa)",
-        	    en_TT: "English (Trinidad and Tobago)",
-        	    en_UM: "English (U.S. Minor Outlying Islands)",
-        	    en_VI: "English (U.S. Virgin Islands)",
-        	    en_GB: "English (United Kingdom)",
-        	    en_US: "English (United States)",
-        	    en_ZW: "English (Zimbabwe)",
-        	    en: "English",
-        	    eo: "Esperanto",
-        	    et_EE: "Estonian (Estonia)",
-        	    et: "Estonian",
-        	    ee_GH: "Ewe (Ghana)",
-        	    ee_TG: "Ewe (Togo)",
-        	    ee: "Ewe",
-        	    fo_FO: "Faroese (Faroe Islands)",
-        	    fo: "Faroese",
-        	    fil_PH: "Filipino (Philippines)",
-        	    fil: "Filipino",
-        	    fi_FI: "Finnish (Finland)",
-        	    fi: "Finnish",
-        	    fr_BE: "French (Belgium)",
-        	    fr_BJ: "French (Benin)",
-        	    fr_BF: "French (Burkina Faso)",
-        	    fr_BI: "French (Burundi)",
-        	    fr_CM: "French (Cameroon)",
-        	    fr_CA: "French (Canada)",
-        	    fr_CF: "French (Central African Republic)",
-        	    fr_TD: "French (Chad)",
-        	    fr_KM: "French (Comoros)",
-        	    fr_CG: "French (Congo - Brazzaville)",
-        	    fr_CD: "French (Congo - Kinshasa)",
-        	    fr_CI: "French (Côte d’Ivoire)",
-        	    fr_DJ: "French (Djibouti)",
-        	    fr_GQ: "French (Equatorial Guinea)",
-        	    fr_FR: "French (France)",
-        	    fr_GA: "French (Gabon)",
-        	    fr_GP: "French (Guadeloupe)",
-        	    fr_GN: "French (Guinea)",
-        	    fr_LU: "French (Luxembourg)",
-        	    fr_MG: "French (Madagascar)",
-        	    fr_ML: "French (Mali)",
-        	    fr_MQ: "French (Martinique)",
-        	    fr_MC: "French (Monaco)",
-        	    fr_NE: "French (Niger)",
-        	    fr_RW: "French (Rwanda)",
-        	    fr_RE: "French (Réunion)",
-        	    fr_BL: "French (Saint Barthélemy)",
-        	    fr_MF: "French (Saint Martin)",
-        	    fr_SN: "French (Senegal)",
-        	    fr_CH: "French (Switzerland)",
-        	    fr_TG: "French (Togo)",
-        	    fr: "French",
-        	    ff_SN: "Fulah (Senegal)",
-        	    ff: "Fulah",
-        	    gl_ES: "Galician (Spain)",
-        	    gl: "Galician",
-        	    lg_UG: "Ganda (Uganda)",
-        	    lg: "Ganda",
-        	    ka_GE: "Georgian (Georgia)",
-        	    ka: "Georgian",
-        	    de_AT: "German (Austria)",
-        	    de_BE: "German (Belgium)",
-        	    de_DE: "German (Germany)",
-        	    de_LI: "German (Liechtenstein)",
-        	    de_LU: "German (Luxembourg)",
-        	    de_CH: "German (Switzerland)",
-        	    de: "German",
-        	    el_CY: "Greek (Cyprus)",
-        	    el_GR: "Greek (Greece)",
-        	    el: "Greek",
-        	    gu_IN: "Gujarati (India)",
-        	    gu: "Gujarati",
-        	    guz_KE: "Gusii (Kenya)",
-        	    guz: "Gusii",
-        	    ha_Latn: "Hausa (Latin)",
-        	    ha_Latn_GH: "Hausa (Latin, Ghana)",
-        	    ha_Latn_NE: "Hausa (Latin, Niger)",
-        	    ha_Latn_NG: "Hausa (Latin, Nigeria)",
-        	    ha: "Hausa",
-        	    haw_US: "Hawaiian (United States)",
-        	    haw: "Hawaiian",
-        	    he_IL: "Hebrew (Israel)",
-        	    he: "Hebrew",
-        	    hi_IN: "Hindi (India)",
-        	    hi: "Hindi",
-        	    hu_HU: "Hungarian (Hungary)",
-        	    hu: "Hungarian",
-        	    is_IS: "Icelandic (Iceland)",
-        	    is: "Icelandic",
-        	    ig_NG: "Igbo (Nigeria)",
-        	    ig: "Igbo",
-        	    id_ID: "Indonesian (Indonesia)",
-        	    id: "Indonesian",
-        	    ga_IE: "Irish (Ireland)",
-        	    ga: "Irish",
-        	    it_IT: "Italian (Italy)",
-        	    it_CH: "Italian (Switzerland)",
-        	    it: "Italian",
-        	    ja_JP: "Japanese (Japan)",
-        	    ja: "Japanese",
-        	    kea_CV: "Kabuverdianu (Cape Verde)",
-        	    kea: "Kabuverdianu",
-        	    kab_DZ: "Kabyle (Algeria)",
-        	    kab: "Kabyle",
-        	    kl_GL: "Kalaallisut (Greenland)",
-        	    kl: "Kalaallisut",
-        	    kln_KE: "Kalenjin (Kenya)",
-        	    kln: "Kalenjin",
-        	    kam_KE: "Kamba (Kenya)",
-        	    kam: "Kamba",
-        	    kn_IN: "Kannada (India)",
-        	    kn: "Kannada",
-        	    kk_Cyrl: "Kazakh (Cyrillic)",
-        	    kk_Cyrl_KZ: "Kazakh (Cyrillic, Kazakhstan)",
-        	    kk: "Kazakh",
-        	    km_KH: "Khmer (Cambodia)",
-        	    km: "Khmer",
-        	    ki_KE: "Kikuyu (Kenya)",
-        	    ki: "Kikuyu",
-        	    rw_RW: "Kinyarwanda (Rwanda)",
-        	    rw: "Kinyarwanda",
-        	    kok_IN: "Konkani (India)",
-        	    kok: "Konkani",
-        	    ko_KR: "Korean (South Korea)",
-        	    ko: "Korean",
-        	    khq_ML: "Koyra Chiini (Mali)",
-        	    khq: "Koyra Chiini",
-        	    ses_ML: "Koyraboro Senni (Mali)",
-        	    ses: "Koyraboro Senni",
-        	    lag_TZ: "Langi (Tanzania)",
-        	    lag: "Langi",
-        	    lv_LV: "Latvian (Latvia)",
-        	    lv: "Latvian",
-        	    lt_LT: "Lithuanian (Lithuania)",
-        	    lt: "Lithuanian",
-        	    luo_KE: "Luo (Kenya)",
-        	    luo: "Luo",
-        	    luy_KE: "Luyia (Kenya)",
-        	    luy: "Luyia",
-        	    mk_MK: "Macedonian (Macedonia)",
-        	    mk: "Macedonian",
-        	    jmc_TZ: "Machame (Tanzania)",
-        	    jmc: "Machame",
-        	    kde_TZ: "Makonde (Tanzania)",
-        	    kde: "Makonde",
-        	    mg_MG: "Malagasy (Madagascar)",
-        	    mg: "Malagasy",
-        	    ms_BN: "Malay (Brunei)",
-        	    ms_MY: "Malay (Malaysia)",
-        	    ms: "Malay",
-        	    ml_IN: "Malayalam (India)",
-        	    ml: "Malayalam",
-        	    mt_MT: "Maltese (Malta)",
-        	    mt: "Maltese",
-        	    gv_GB: "Manx (United Kingdom)",
-        	    gv: "Manx",
-        	    mr_IN: "Marathi (India)",
-        	    mr: "Marathi",
-        	    mas_KE: "Masai (Kenya)",
-        	    mas_TZ: "Masai (Tanzania)",
-        	    mas: "Masai",
-        	    mer_KE: "Meru (Kenya)",
-        	    mer: "Meru",
-        	    mfe_MU: "Morisyen (Mauritius)",
-        	    mfe: "Morisyen",
-        	    naq_NA: "Nama (Namibia)",
-        	    naq: "Nama",
-        	    ne_IN: "Nepali (India)",
-        	    ne_NP: "Nepali (Nepal)",
-        	    ne: "Nepali",
-        	    nd_ZW: "North Ndebele (Zimbabwe)",
-        	    nd: "North Ndebele",
-        	    nb_NO: "Norwegian Bokmål (Norway)",
-        	    nb: "Norwegian Bokmål",
-        	    nn_NO: "Norwegian Nynorsk (Norway)",
-        	    nn: "Norwegian Nynorsk",
-        	    nyn_UG: "Nyankole (Uganda)",
-        	    nyn: "Nyankole",
-        	    or_IN: "Oriya (India)",
-        	    or: "Oriya",
-        	    om_ET: "Oromo (Ethiopia)",
-        	    om_KE: "Oromo (Kenya)",
-        	    om: "Oromo",
-        	    ps_AF: "Pashto (Afghanistan)",
-        	    ps: "Pashto",
-        	    fa_AF: "Persian (Afghanistan)",
-        	    fa_IR: "Persian (Iran)",
-        	    fa: "Persian",
-        	    pl_PL: "Polish (Poland)",
-        	    pl: "Polish",
-        	    pt_BR: "Portuguese (Brazil)",
-        	    pt_GW: "Portuguese (Guinea-Bissau)",
-        	    pt_MZ: "Portuguese (Mozambique)",
-        	    pt_PT: "Portuguese (Portugal)",
-        	    pt: "Portuguese",
-        	    pa: "Punjabi",
-        	    ro: "Romanian",
-        	    rm: "Romansh",
-        	    rof: "Rombo",
-        	    ru_MD: "Russian (Moldova)",
-        	    ru_RU: "Russian (Russia)",
-        	    ru_UA: "Russian (Ukraine)",
-        	    ru: "Russian",
-        	    rwk_TZ: "Rwa (Tanzania)",
-        	    rwk: "Rwa",
-        	    saq_KE: "Samburu (Kenya)",
-        	    saq: "Samburu",
-        	    sg_CF: "Sango (Central African Republic)",
-        	    sg: "Sango",
-        	    seh_MZ: "Sena (Mozambique)",
-        	    seh: "Sena",
-        	    sr_Cyrl: "Serbian (Cyrillic)",
-        	    sr_Cyrl_BA: "Serbian (Cyrillic, Bosnia and Herzegovina)",
-        	    sr_Cyrl_ME: "Serbian (Cyrillic, Montenegro)",
-        	    sr_Cyrl_RS: "Serbian (Cyrillic, Serbia)",
-        	    sr_Latn: "Serbian (Latin)",
-        	    sr_Latn_BA: "Serbian (Latin, Bosnia and Herzegovina)",
-        	    sr_Latn_ME: "Serbian (Latin, Montenegro)",
-        	    sr_Latn_RS: "Serbian (Latin, Serbia)",
-        	    sr: "Serbian",
-        	    sn_ZW: "Shona (Zimbabwe)",
-        	    sn: "Shona",
-        	    ii_CN: "Sichuan Yi (China)",
-        	    ii: "Sichuan Yi",
-        	    si_LK: "Sinhala (Sri Lanka)",
-        	    si: "Sinhala",
-        	    sk_SK: "Slovak (Slovakia)",
-        	    sk: "Slovak",
-        	    sl_SI: "Slovenian (Slovenia)",
-        	    sl: "Slovenian",
-        	    xog_UG: "Soga (Uganda)",
-        	    xog: "Soga",
-        	    so_DJ: "Somali (Djibouti)",
-        	    so_ET: "Somali (Ethiopia)",
-        	    so_KE: "Somali (Kenya)",
-        	    so_SO: "Somali (Somalia)",
-        	    so: "Somali",
-        	    es_AR: "Spanish (Argentina)",
-        	    es_BO: "Spanish (Bolivia)",
-        	    es_CL: "Spanish (Chile)",
-        	    es_CO: "Spanish (Colombia)",
-        	    es_CR: "Spanish (Costa Rica)",
-        	    es_DO: "Spanish (Dominican Republic)",
-        	    es_EC: "Spanish (Ecuador)",
-        	    es_SV: "Spanish (El Salvador)",
-        	    es_GQ: "Spanish (Equatorial Guinea)",
-        	    es_GT: "Spanish (Guatemala)",
-        	    es_HN: "Spanish (Honduras)",
-        	    es_419: "Spanish (Latin America)",
-        	    es_MX: "Spanish (Mexico)",
-        	    es_NI: "Spanish (Nicaragua)",
-        	    es_PA: "Spanish (Panama)",
-        	    es_PY: "Spanish (Paraguay)",
-        	    es_PE: "Spanish (Peru)",
-        	    es_PR: "Spanish (Puerto Rico)",
-        	    es_ES: "Spanish (Spain)",
-        	    es_US: "Spanish (United States)",
-        	    es_UY: "Spanish (Uruguay)",
-        	    es_VE: "Spanish (Venezuela)",
-        	    es: "Spanish",
-        	    sw_KE: "Swahili (Kenya)",
-        	    sw_TZ: "Swahili (Tanzania)",
-        	    sw: "Swahili",
-        	    sv_FI: "Swedish (Finland)",
-        	    sv_SE: "Swedish (Sweden)",
-        	    sv: "Swedish",
-        	    gsw_CH: "Swiss German (Switzerland)",
-        	    gsw: "Swiss German",
-        	    shi: "Tachelhit",
-        	    dav_KE: "Taita (Kenya)",
-        	    dav: "Taita",
-        	    ta_IN: "Tamil (India)",
-        	    ta_LK: "Tamil (Sri Lanka)",
-        	    ta: "Tamil",
-        	    te_IN: "Telugu (India)",
-        	    te: "Telugu",
-        	    teo_KE: "Teso (Kenya)",
-        	    teo_UG: "Teso (Uganda)",
-        	    teo: "Teso",
-        	    th_TH: "Thai (Thailand)",
-        	    th: "Thai",
-        	    bo_CN: "Tibetan (China)",
-        	    bo_IN: "Tibetan (India)",
-        	    bo: "Tibetan",
-        	    ti: "Tigrinya",
-        	    to_TO: "Tonga (Tonga)",
-        	    to: "Tonga",
-        	    tr_TR: "Turkish (Turkey)",
-        	    tr: "Turkish",
-        	    uk_UA: "Ukrainian (Ukraine)",
-        	    uk: "Ukrainian",
-        	    ur_IN: "Urdu (India)",
-        	    ur_PK: "Urdu (Pakistan)",
-        	    ur: "Urdu",
-        	    uz_Arab: "Uzbek (Arabic)",
-        	    uz_Cyrl: "Uzbek (Cyrillic)",
-        	    uz_Latn: "Uzbek (Latin)",
-        	    uz: "Uzbek",
-        	    vi_VN: "Vietnamese (Vietnam)",
-        	    vi: "Vietnamese",
-        	    vun_TZ: "Vunjo (Tanzania)",
-        	    vun: "Vunjo",
-        	    cy_GB: "Welsh (United Kingdom)",
-        	    cy: "Welsh",
-        	    yo_NG: "Yoruba (Nigeria)",
-        	    yo: "Yoruba",
-        	    zu_ZA: "Zulu (South Africa)",
-        	    zu: "Zulu"
+        		"sq,": "Albanais",
+        		"sq,AL": "Albanais(Albanie)",
+        		"de,": "Allemand",
+        		"de,CH": "Allemand(Suisse)",
+        		"de,AT": "Allemand(Autriche)",
+        		"de,LU": "Allemand(Luxembourg)",
+        		"de,DE": "Allemand(Allemagne)",
+        		"de,GR": "Allemand(Grèce)",
+        		"en,US": "Anglais(Etats-Unis)",
+        		"en,SG": "Anglais(Singapour)",
+        		"en,MT": "Anglais(Malte)",
+        		"en,": "Anglais",
+        		"en,PH": "Anglais(Philippines)",
+        		"en,NZ": "Anglais(Nouvelle-Zélande)",
+        		"en,ZA": "Anglais(Afrique du Sud)",
+        		"en,AU": "Anglais(Australie)",
+        		"en,IE": "Anglais(Irlande)",
+        		"en,CA": "Anglais(Canada)",
+        		"en,IN": "Anglais(Inde)",
+        		"en,GB": "Anglais(Royaume-Uni)",
+        		"ar,AE": "Arabe(Emirats Arabes Unis)",
+        		"ar,JO": "Arabe(Jordanie)",
+        		"ar,SY": "Arabe(Syrie)",
+        		"ar,BH": "Arabe(Bahreïn)",
+        		"ar,SA": "Arabe(Arabie Saoudite)",
+        		"ar,YE": "Arabe(Yémen)",
+        		"ar,EG": "Arabe(Egypte)",
+        		"ar,SD": "Arabe(Soudan)",
+        		"ar,TN": "Arabe(Tunisie)",
+        		"ar,IQ": "Arabe(Irak)",
+        		"ar,MA": "Arabe(Maroc)",
+        		"ar,QA": "Arabe(Qatar)",
+        		"ar,OM": "Arabe(Oman)",
+        		"ar,": "Arabe",
+        		"ar,KW": "Arabe(Koweit)",
+        		"ar,LY": "Arabe(Libye)",
+        		"ar,DZ": "Arabe(Algérie)",
+        		"ar,LB": "Arabe(Liban)",
+        		"be,": "Biélorusse",
+        		"be,BY": "Biélorusse(Biélo-Russie)",
+        		"bg,": "Bulgare",
+        		"bg,BG": "Bulgare(Bulgarie)",
+        		"ca,ES": "Catalan(Espagne)",
+        		"ca,": "Catalan",
+        		"zh,TW": "Chinois(Taiwan)",
+        		"zh,HK": "Chinois(Hong-Kong)",
+        		"zh,SG": "Chinois(Singapour)",
+        		"zh,CN": "Chinois(Chine)",
+        		"zh,": "Chinois",
+        		"ko,": "Coréen",
+        		"ko,KR": "Coréen(Corée du Sud)",
+        		"hr,HR": "Croate(Croatie)",
+        		"hr,": "Croate",
+        		"da,DK": "Danois(Danemark)",
+        		"da,": "Danois",
+        		"es,PA": "Espagnol(Panama)",
+        		"es,VE": "Espagnol(Vénézuela)",
+        		"es,PR": "Espagnol(Porto Rico)",
+        		"es,BO": "Espagnol(Bolivie)",
+        		"es,AR": "Espagnol(Argentine)",
+        		"es,SV": "Espagnol(El Salvador)",
+        		"es,": "Espagnol",
+        		"es,ES": "Espagnol(Espagne)",
+        		"es,CO": "Espagnol(Colombie)",
+        		"es,PY": "Espagnol(Paraguay)",
+        		"es,EC": "Espagnol(Equateur)",
+        		"es,US": "Espagnol(Etats-Unis)",
+        		"es,GT": "Espagnol(Guatemala)",
+        		"es,MX": "Espagnol(Mexique)",
+        		"es,HN": "Espagnol(Honduras)",
+        		"es,CL": "Espagnol(Chili)",
+        		"es,DO": "Espagnol(République Dominicaine)",
+        		"es,CU": "Espagnol(Cuba)",
+        		"es,UY": "Espagnol(Uruguay)",
+        		"es,CR": "Espagnol(Costa Rica)",
+        		"es,NI": "Espagnol(Nicaragua)",
+        		"es,PE": "Espagnol(Pérou)",
+        		"et,": "Estonien",
+        		"et,EE": "Estonien(Estonie)",
+        		"fi,FI": "Finnois(Finlande)",
+        		"fi,": "Finnois",
+        		"fr,BE": "Français(Belgique)",
+        		"fr,CH": "Français(Suisse)",
+        		"fr,": "Français",
+        		"fr,LU": "Français(Luxembourg)",
+        		"fr,FR": "Français(France)",
+        		"fr,CA": "Français(Canada)",
+        		"el,": "Grec",
+        		"el,CY": "Grec(Chypre)",
+        		"el,GR": "Grec(Grèce)",
+        		"hi,IN": "Hindi(Inde)",
+        		"hi,": "Hindi",
+        		"hu,": "Hongrois",
+        		"hu,HU": "Hongrois(Hongrie)",
+        		"iw,IL": "Hébreu(Israël)",
+        		"iw,": "Hébreu",
+        		"in,": "Indonésien",
+        		"in,ID": "Indonésien(Indonésie)",
+        		"ga,": "Irlandais",
+        		"ga,IE": "Irlandais(Irlande)",
+        		"is,IS": "Islandais(Islande)",
+        		"is,": "Islandais",
+        		"it,": "Italien",
+        		"it,CH": "Italien(Suisse)",
+        		"it,IT": "Italien(Italie)",
+        		"ja,JP": "Japonais(Japon)",
+        		"ja,": "Japonais",
+        		"ja,JP": "Japonais(Japon)",
+        		"lv,": "Letton",
+        		"lv,LV": "Letton(Lettonie)",
+        		"lt,": "Lithuanien",
+        		"lt,LT": "Lithuanien(Lithuanie)",
+        		"mk,": "Macédonien",
+        		"mk,MK": "Macédonien(Macédoine)",
+        		"ms,MY": "Malais(Malaisie)",
+        		"ms,": "Malais",
+        		"mt,MT": "Maltais(Malte)",
+        		"mt,": "Maltais",
+        		"no,NO": "Norvégien(Norvège)",
+        		"no,NO": "Norvégien(Norvège)",
+        		"no,": "Norvégien",
+        		"nl,": "Néerlandais",
+        		"nl,NL": "Néerlandais(Pays-Bas)",
+        		"nl,BE": "Néerlandais(Belgique)",
+        		"pl,PL": "Polonais(Pologne)",
+        		"pl,": "Polonais",
+        		"pt,": "Portugais",
+        		"pt,BR": "Portugais(Brésil)",
+        		"pt,PT": "Portugais(Portugal)",
+        		"ro,RO": "Roumain(Roumanie)",
+        		"ro,": "Roumain",
+        		"ru,RU": "Russe(Russie)",
+        		"ru,": "Russe",
+        		"sr,ME": "Serbe(Monténégro)",
+        		"sr,BA": "Serbe(Bosnie-Herzégovine)",
+        		"sr,CS": "Serbe(Serbie et Monténégro)",
+        		"sr,BA": "Serbe(Bosnie-Herzégovine)",
+        		"sr,ME": "Serbe(Monténégro)",
+        		"sr,": "Serbe",
+        		"sr,RS": "Serbe(Serbie)",
+        		"sr,": "Serbe",
+        		"sr,RS": "Serbe(Serbie)",
+        		"sk,": "Slovaque",
+        		"sk,SK": "Slovaque(Slovaquie)",
+        		"sl,": "Slovène",
+        		"sl,SI": "Slovène(Slovénie)",
+        		"sv,SE": "Suédois(Suède)",
+        		"sv,": "Suédois",
+        		"cs,": "Tchèque",
+        		"cs,CZ": "Tchèque(République Tchèque)",
+        		"th,TH": "Thaï(Thaïlande)",
+        		"th,": "Thaï",
+        		"th,TH": "Thaï(Thaïlande)",
+        		"tr,": "Turc",
+        		"tr,TR": "Turc(Turquie)",
+        		"uk,": "Ukrainien",
+        		"uk,UA": "Ukrainien(Ukraine)",
+        		"vi,VN": "Vietnamien(Vietnam)",
+        		"vi,": "Vietnamien"
         	}        
         </script>
-        <script language="javascript" type="text/javascript">
-            
+        <script type="text/javascript">
+            // -------------- 1er web service (heure courante)
             var wsUri = "ws://localhost:8080/Compteur/getTime";
             /*
             function init() {
@@ -453,14 +208,15 @@
             }
            	//window.addEventListener("load", init, false);
            
-           	//--------------- 2eme web Service
+           	//--------------- 2eme web Service (mise a jour des compteurs)
            	
            	var wsUri2 = "ws://localhost:8080/Compteur/majTime";
            	function majTime() {
                 websocket2 = new WebSocket(wsUri2);
                 websocket2.onopen = function(evt)  {
                     writeToScreen("Connected to Endpoint!");
-                    doSendMaj("start");
+                    console.log(COMPTEURS_INIT);
+                    doSendMaj(COMPTEURS_INIT);
                 };
                 websocket2.onmessage = function(evt){
                     writeToScreenMaj(evt.data);
@@ -477,14 +233,11 @@
             function writeToScreenMaj(message) {
                 var time = message.split(" ") ;
                	//output.innerHTML = time[2]+"/"+time[1]+"/"+time[0]+", "+time[3]+":"+time[4]+":"+time[5];
-                console.log(message);
 				var json = JSON.parse(message);
 
 				for (var cpt in json) {
 	                var output = document.getElementById("fin"+cpt);
-	                if (output !== null) {
-						console.log("fin"+cpt);
-						
+	                if (output !== null) {						
 						output.innerHTML = json[cpt].end;
 	                }
 
@@ -505,15 +258,49 @@
     			  type: 'GET',
     			  success: function(data) {
     				compteurList = data;
+					var compteurListToString = "[";
+					
+    				var tableRef = document.getElementById("compteurs").getElementsByTagName('tbody')[0];
+    				tableRef.innerHTML = "";
     				
-    				var output = document.getElementById("compteurs");
-    				output.innerHTML = "<div>" ;
     				for (var cpt in compteurList) {
+        				var tr = tableRef.insertRow(tableRef.rows.length);
+        				var tdNom = tr.insertCell(0);
+        				var tdCompt = tr.insertCell(1);
+        				var tdSupprBtn = tr.insertCell(2);
+        				
     	                var time = compteurList[cpt].fin.split(" ") ;
     	                var fin = time[2]+"/"+time[1]+"/"+time[0]+", "+time[3]+":"+time[4]+":"+time[5];
-    					output.innerHTML += "Temps restant au compteur <div style=\"display:inline;\">"+compteurList[cpt].nom+" ("+compteurList[cpt].locale+") : <div id=\"fin"+cpt+"\" style=\"display:inline;\">"+fin+"</div><br />" ;    				
+    					//output.innerHTML += "<th>"+compteurList[cpt].nom+" ("+compteurList[cpt].locale+") </th><th id=\"fin"+cpt+"\">"+fin+"</th>" ;    			
+    					
+    					var newText = document.createTextNode(compteurList[cpt].nom+" ("+compteurList[cpt].locale+")");
+    					tdNom.appendChild(newText);
+    					
+    					newText = document.createTextNode(fin);
+    					tdCompt.appendChild(newText);
+    					tdCompt.setAttribute("id", "fin"+cpt, 0);
+    					
+    					//newText = document.createElement("<input class=\"alert button\" onclick=\"supprimeCompteur(this)\" value=\""+compteurList[cpt].nom+"\" type=\"button\">Delete</input>");
+
+    					button = document.createElement("button");
+    					tdSupprBtn.appendChild(button);
+    					button.setAttribute("class", "alert button", 0);
+    					button.setAttribute("onclick", "supprimeCompteur(this)", 0);
+    					button.setAttribute("value", compteurList[cpt].nom, 0);
+    					button.setAttribute("type", "button", 0);
+    					button.innerHTML = "Supprimer";
+
+						
+    					//button.html("Supprimer");
+    					
+    					compteurListToString+= "{\"nom\"=\""+compteurList[cpt].nom+"\", \"locale\"=\""+compteurList[cpt].locale+"\", \"endY\"=\""+time[0]+"\", \"endM\"=\""+time[1]+"\", \"endJ\"=\""+time[2]+"\", \"endH\"=\""+time[3]+"\", \"endMin\"=\""+time[4]+"\", \"endS\"=\""+time[5]+"\"}" ;
+
+    					if(cpt < compteurList.length)
+    						compteurListToString+=",";
     				}
-    				output.innerHTML += "</div>" ;
+    				compteurListToString+="]";
+    				COMPTEURS_INIT = compteurListToString ;
+
     			  },
     			  error: function (jqXHR) {
     			  	throw new Error(jqXHR.status + ". " + jqXHR.responseText);
@@ -542,7 +329,27 @@
     			  },
     			  error: function(xhr, status, error) {
     				  var err = "(" + xhr.responseText + ")";
-    				  console.log(err.Message);
+    			  }
+    			});
+
+				getCompteurs(); // mise a jour des compteurs
+            }
+            //---------------------------------------------------------------------------
+			function supprimeCompteur(bouton) {
+            	         	
+            	var nom = bouton.value; 
+        		
+        		var uri = "http://localhost:8080/Compteur/removeCompteur/"+nom;
+        		
+    			$.ajax({
+    			  url: uri,
+    			  dataType: 'json',
+    			  async: false,		
+    			  type: 'DELETE',
+    			  success: function(data) {
+    			  },
+    			  error: function(xhr, status, error) {
+    				  var err = "(" + xhr.responseText + ")";
     			  }
     			});
 
@@ -627,83 +434,35 @@
 		   <div class="large-1 medium-1 small-1 columns">
 		   	<div class="">
 		   	    <label>&nbsp;</label>
-		    	<input class="success button" onclick="nouveauCompteur()" value="OK" type="button">
+		    	<input class="success button" onclick="nouveauCompteur()" value="OK" type="button" />
 		    </div>
 		   </div>
 		 </div>
-       	 </form>  
- 		<!-- <div class="row" style="text-align: center;">
-            <form action="">
-           		<div class="large-3 medium-3 columns"><label>Nom du Compteur</label><input class="large-3 medium-3 columns" type="text" id="nom" name="nom"></div>
-           		<div class="large-2 medium-2 columns">
-           			<label>Langue</label><select class="large-3 medium-3 columns" id="locale" name="locale">
-           			<script>
-           			for( var l in LANGUAGE_BY_LOCALE ) {
-           				document.write("<option value=\""+l+"\">"+LANGUAGE_BY_LOCALE[l]+"</option>\n");
-           			}
-           			</script>
-           			</select>
-           		</div>
-           		 	
-           		<div class="large-6 medium-6 columns">
-               	<label>Fin</label>
-	                <div class="large-3 medium-3 columns">
-	               		<input type="text" id="datefin" name="datefin" />
-	               	</div>
-               	
-              
-	               	<div class="large-1 medium-1 columns">
-		               	<select id="finHeure" name="finHeure">
-		                <script>
-		           		for(var i = 1; i < 24; i++)  {
-		           			if (i < 10)
-		           				document.write("<option value=\""+i+"\">0"+i+"</option>\n");
-		           			else
-		           				document.write("<option value=\""+i+"\">"+i+"</option>\n");
-		           		}
-		           		</script>
-						</select>
-					</div>
-					<div class="large-1 medium-1 columns">
-		                <select id="finMinute" name="finMinute">
-		                <script>
-		           		for(var i = 1; i < 60; i++)  {
-		           			if (i < 10)
-		           				document.write("<option value=\""+i+"\">0"+i+"</option>\n");
-		           			else
-		           				document.write("<option value=\""+i+"\">"+i+"</option>\n");
-		           		}
-		           		</script>
-						</select>
-					</div>
-					<div class="large-1 medium-1 columns">
-						<select id="finSeconde" name="finSeconde">
-		                <script>
-		           		for(var i = 1; i < 60; i++)  {
-		           			if (i < 10)
-		           				document.write("<option value=\""+i+"\">0"+i+"</option>\n");
-		           			else
-		           				document.write("<option value=\""+i+"\">"+i+"</option>\n");
-		
-		           		}
-		           		</script>
-						</select>
-					</div>
-				</div>
-               
-                <div class="large-1 medium-1 columns"><input onclick="nouveauCompteur()" value="OK" type="button"></div>
-        	</form>           	
- 		</div>
- 		 -->
-        <div id="compteurs"></div>
+       	 </form>
+       	 
+        <table id="compteurs">
+    	<thead>
+    		<tr><th>Compteur</th><th>Temps restant</th><th>Suppression</th></tr>
+    	</thead>
+    	<tbody>
+    	
+    	</tbody>
+    	</table>	
+    	
         <script>   
           $(function() {
                $( "#datefin" ).datepicker();   
-          }); 
+          });
+          
+          $("#datefin").keypress(function(e) {
+              e.preventDefault();
+          });
+
+
         </script>
         <script>
         function start(){
-            getCompteurs();
+        	getCompteurs();
         	getTime();
         	majTime();
         }

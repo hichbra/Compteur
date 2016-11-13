@@ -2,19 +2,19 @@ package model;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import org.joda.time.Chronology;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
-import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class Compteur
 {
@@ -62,10 +62,72 @@ public class Compteur
 		this.fin = fin;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return nom+" "+locale+" "+getFin();
+	}
+	
+	public String getJson()
+	{
+		return "{ \"nom\": \""+nom+"\", \"locale\": \""+locale.getLanguage() + "," + locale.getCountry()+"\", \"endY\": \""+fin.get(Calendar.YEAR)+"\""
+																										+", \"endM\":\""+fin.get(Calendar.MONTH)+"\""
+																										+", \"endJ\":\""+fin.get(Calendar.DAY_OF_MONTH)+"\""	
+																										+", \"endH\":\""+fin.get(Calendar.HOUR_OF_DAY)+"\""
+																										+", \"endMin\":\""+fin.get(Calendar.MINUTE)+"\""
+																										+", \"endS\":\""+fin.get(Calendar.SECOND)+"\" }";
+	}
+	
+	public static Locale stringToLocale(String s)
+	{
+	    StringTokenizer tempStringTokenizer = new StringTokenizer(s,",");
+	    String l = "", c = "" ;
+	    if(tempStringTokenizer.hasMoreTokens())
+		    l = (String) tempStringTokenizer.nextElement();
+		
+	    if(tempStringTokenizer.hasMoreTokens())
+		    c = (String) tempStringTokenizer.nextElement();
+		
+	    return new Locale(l,c);
+	}
+	
+	public static HashMap<String, Compteur> cookiesToMap(String json)
+	{
+		HashMap<String, Compteur> compteurs = new HashMap<String, Compteur>();
+		
+		JSONArray arr;
+		Compteur c ;
+		try 
+		{
+			arr = new JSONArray(json);
+
+			for (int i = 0; i < arr.length(); i++)
+			{
+				String nom = arr.getJSONObject(i).getString("nom");
+				String locale = arr.getJSONObject(i).getString("locale");
+				int anneeFin = Integer.parseInt(arr.getJSONObject(i).getString("endY"));
+				int moisFin = Integer.parseInt(arr.getJSONObject(i).getString("endM"));
+				int jourFin = Integer.parseInt(arr.getJSONObject(i).getString("endJ"));
+				int heureFin = Integer.parseInt(arr.getJSONObject(i).getString("endH"));
+				int minuteFin = Integer.parseInt(arr.getJSONObject(i).getString("endMin"));
+				int secondeFin = Integer.parseInt(arr.getJSONObject(i).getString("endS"));
+				
+				Locale l = Compteur.stringToLocale(locale) ;
+				
+				Calendar dateFin = Calendar.getInstance(l);
+				dateFin.set(Calendar.YEAR, anneeFin);
+				dateFin.set(Calendar.MONTH, moisFin);
+				dateFin.set(Calendar.DAY_OF_MONTH, jourFin);
+				dateFin.set(Calendar.HOUR_OF_DAY, heureFin);
+				dateFin.set(Calendar.MINUTE, minuteFin);
+				dateFin.set(Calendar.SECOND, secondeFin);
+				
+				c = new Compteur(nom, l, dateFin);
+				compteurs.put(nom, c);
+			}
+		} 
+		catch (JSONException e) { e.printStackTrace(); }
+		
+		return compteurs ;
 	}
 	
 	
@@ -126,6 +188,7 @@ public class Compteur
 	    System.out.println(dateFin);
 
 		Interval interval = new Interval(debu, dateFin);
+
 		DateTime start = interval.getStart();
 		DateTime end = interval.getEnd();
 		Chronology chrono = interval.getChronology();
