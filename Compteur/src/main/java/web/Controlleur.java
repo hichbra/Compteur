@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class Controlleur implements Service
 {	
-	private static HashMap<String, Compteur> compteurs  ;
+	public static HashMap<String, Compteur> compteurs  ;
 
 	
 	public Controlleur() 
@@ -161,12 +161,11 @@ public class Controlleur implements Service
 		Compteur c = new Compteur(nom, l, dateFin);
 		compteurs.put(nom, c);
 		
-		
 		saveCookies(response);
 	}
 	
 	/*
-	 *  Sauvegarde du cookie
+	 * Sauvegarde du cookie
 	 */
 	public void saveCookies(HttpServletResponse response)
 	{
@@ -203,11 +202,11 @@ public class Controlleur implements Service
 	@RequestMapping(value = "/getCompteurs", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public List<Object> getCompteurs(HttpServletRequest response)
+	public List<Object> getCompteurs(HttpServletRequest request)
 	{
 		if(compteurs.isEmpty())
 		{
-			String compteursString = getCookieValue( response, "compteurs" );
+			String compteursString = getCookieValue( request, "compteurs" );
 			if ( compteursString != null )
 				compteurs = Compteur.cookiesToMap(compteursString); 
 		}

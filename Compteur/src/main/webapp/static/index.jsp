@@ -318,21 +318,30 @@
         		var finMinute = $('#finMinute').val();
         		var finSeconde = $('#finSeconde').val();
         		
-        		var uri = "http://localhost:8080/Compteur/addCompteur/"+nom+"/"+locale+"/"+datefin+"/"+finHeure+"/"+finMinute+"/"+finSeconde;
-        		
-    			$.ajax({
-    			  url: uri,
-    			  dataType: 'json',
-    			  async: false,		
-    			  type: 'PUT',
-    			  success: function(data) {
-    			  },
-    			  error: function(xhr, status, error) {
-    				  var err = "(" + xhr.responseText + ")";
-    			  }
-    			});
+        		if(nom && locale && datefin && finHeure && finMinute && finSeconde)
+        		{
+        			var uri = "http://localhost:8080/Compteur/addCompteur/"+nom+"/"+locale+"/"+datefin+"/"+finHeure+"/"+finMinute+"/"+finSeconde;
+            		
+        			$.ajax({
+        			  url: uri,
+        			  dataType: 'json',
+        			  async: false,		
+        			  type: 'PUT',
+        			  success: function(data) {
+        			  },
+        			  error: function(xhr, status, error) {
+        				  var err = "(" + xhr.responseText + ")";
+        			  }
+        			});
 
-				getCompteurs(); // mise a jour des compteurs
+    				getCompteurs(); // mise a jour des compteurs
+    				
+    				$("#error").css("display", "none");  
+        		}
+        		else
+        		{
+        			$("#error").css("display", "block");  
+        		}
             }
             //---------------------------------------------------------------------------
 			function supprimeCompteur(bouton) {
@@ -361,7 +370,11 @@
         <h2 id="time" style="text-align: center;">Bonjour</h2>
         <br>
         <form action="">
-        <div class="row primary">
+		<div id="error" data-abide-error role="alert" class="alert callout" style="display: none;">
+			<p><i class="fi-alert"></i>Veuillez remplir tous les champs !</p>
+		</div>
+          <div class="row primary">
+        
           <div class="large-3 medium-3 small-3 columns">
             <div class="">
               <label>Nom du Compteur</label>
