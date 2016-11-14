@@ -15,8 +15,6 @@ import javax.websocket.OnMessage;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import model.Compteur;
-
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.Period;
@@ -29,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import model.Compteur;
 
 
 @ServerEndpoint("/majTime")
@@ -84,7 +84,7 @@ public class Controlleur implements Service
             		}
             		catch(IllegalArgumentException e)
             		{
-                	    cptsEnd += "Termin�e\"}";
+                	    cptsEnd += "Termin�e\"}";
             		}
 
             	    i++ ;
@@ -135,7 +135,10 @@ public class Controlleur implements Service
 		}
     }
 
-	
+	/**
+	 * Ajoute un compteur si il n'existe pas
+	 * Modifie un compteur si il existe déjà
+	 */
 	@RequestMapping(value = "/addCompteur/{nom}/{locale}/{moisFin}/{jourFin}/{anneeFin}/{heureFin}/{minuteFin}/{secondeFin}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -147,21 +150,35 @@ public class Controlleur implements Service
 																									@PathVariable("secondeFin") int secondeFin)
 	{
 		//System.out.println(nom+" "+locale+" "+moisFin+" "+jourFin+" "+anneeFin+" "+heureFin+" "+minuteFin+" "+secondeFin);
-		
-		Locale l = Compteur.stringToLocale(locale) ;
+		if ( nom != null && ! nom.equals("") && locale != null && ! locale.equals(""))
+		{
+			if ( moisFin <= 12 && moisFin > 0 && jourFin <= 31 && jourFin > 0 && anneeFin >= 1970 && heureFin < 24 && heureFin >= 0 && minuteFin < 60 && minuteFin >= 0 && secondeFin < 60 && secondeFin >= 0 )
+			{
+				// nb de jour coresspondant au mois
+				if ( (moisFin == 2 && jourFin <= 29) || (jourFin == 31 && (moisFin == 1 || moisFin == 3 || moisFin == 5 || moisFin == 7 || moisFin == 8 || moisFin == 10 || moisFin == 12)) || jourFin < 31 )
+				{
+					// annee bissextile
+					if ( ((moisFin == 2 && jourFin == 29) && (anneeFin%4 == 0 && anneeFin%100 == 0 && anneeFin%400 == 0)) || !(moisFin == 2 && jourFin == 29) )
+					{
+						Locale l = Compteur.stringToLocale(locale) ;
 
-		Calendar dateFin = Calendar.getInstance(l);
-		dateFin.set(Calendar.YEAR, anneeFin);
-		dateFin.set(Calendar.MONTH, moisFin-1);
-		dateFin.set(Calendar.DAY_OF_MONTH, jourFin);
-		dateFin.set(Calendar.HOUR_OF_DAY, heureFin);
-		dateFin.set(Calendar.MINUTE, minuteFin);
-		dateFin.set(Calendar.SECOND, secondeFin);
-			
-		Compteur c = new Compteur(nom, l, dateFin);
-		compteurs.put(nom, c);
+						Calendar dateFin = Calendar.getInstance(l);
+						dateFin.set(Calendar.YEAR, anneeFin);
+						dateFin.set(Calendar.MONTH, moisFin-1);
+						dateFin.set(Calendar.DAY_OF_MONTH, jourFin);
+						dateFin.set(Calendar.HOUR_OF_DAY, heureFin);
+						dateFin.set(Calendar.MINUTE, minuteFin);
+						dateFin.set(Calendar.SECOND, secondeFin);
+							
+						Compteur c = new Compteur(nom, l, dateFin);
+						compteurs.put(nom, c);
+						
+						saveCookies(response);
+					}
+				}
+			}
+		}
 		
-		saveCookies(response);
 	}
 	
 	/*
