@@ -36,7 +36,7 @@ import model.Compteur;
 public class Controlleur implements Service
 {	
 	public static HashMap<String, Compteur> compteurs  ;
-
+	
 	
 	public Controlleur() 
 	{
@@ -48,7 +48,7 @@ public class Controlleur implements Service
     {
         try 
         {
-        	// Initialissation venant des cookies
+        	// Initialisation venant des cookies
         	compteurs = Compteur.cookiesToMap(msg);
     		
             while (session.isOpen())
@@ -225,7 +225,7 @@ public class Controlleur implements Service
 		{
 			String compteursString = getCookieValue( request, "compteurs" );
 			if ( compteursString != null )
-				compteurs = Compteur.cookiesToMap(compteursString); 
+				compteurs = Compteur.cookiesToMap(compteursString);
 		}
 
 		return Arrays.asList(compteurs.values().toArray()) ;
