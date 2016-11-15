@@ -6,11 +6,15 @@
         <title>Informatique Distribuée Objet Distribuée</title>
         
         <link rel="stylesheet" href="<c:url value="/static/css/foundation.css" />">
+        <link rel="stylesheet" href="<c:url value="/static/css/foundation.min.css" />">
+        
     	<link rel="stylesheet" href="<c:url value="/static/css/app.css" />">
     
     </head>
     <body>
-        <script src="<c:url value="/js/jquery-3.1.1.min.js" />"></script>
+        <script src="<c:url value="/static/js/jquery-3.1.1.min.js" />"></script>
+        <script src="<c:url value="/static/js/vendor/foundation.js" />"></script>
+        <script src="<c:url value="/static/js/app.js" />"></script>
         <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
    		<script type="text/javascript">
    		var COMPTEURS_INIT;
@@ -368,7 +372,7 @@
             }
             
         </script>
-        <h1 style="text-align: center;">Hello World WebSocket Client</h1>
+        <h1 style="text-align: center;">Web App Lab #1 - Brahimi Hicham</h1>
         <h2 id="time" style="text-align: center;">Bonjour</h2>
         <br>
         <form action="">
@@ -380,7 +384,7 @@
           <div class="large-3 medium-3 small-3 columns">
             <div class="">
               <label>Nom du Compteur</label>
-              <input type="text" id="nom" name="nom">
+              <input type="text" id="nom" name="nom" placeholder="Inscrivez un nom existant= Modifier">
             </div>
           </div>
           <div class="large-2 medium-2 small-2 columns">
@@ -464,6 +468,47 @@
     	</tbody>
     	</table>	
     	
+    	<br />
+    	<br />
+    	<hr />
+    	<h3 style="text-align: center;">Technologies utilisées</h3>
+    	
+		<table class="hover">
+    	<tbody>
+    	   <tr>
+    	   	<th><h4>CLIENT</h4></th>
+    	   	<th>
+    	   		<ul class="no-bullet">
+					<li><h5>WebService pour la mise à jour</h5></li>
+					<li><h5>Ajax pour la mise en page dynamique</h5></li>
+					<li><h5>Foundation pour le style</h5></li>
+				 </ul>
+    	   	</th>
+    	   </tr>
+    	   <tr>
+    	   	<th><h4>SERVEUR</h4></th>
+    	   	<th>
+    	   		<ul class="no-bullet">
+    	   			<li><h5>Spring comme framework J2EE</h5></li>
+					<li><h5>Joda pour les calculs de temps</h5></li>
+					<li><h5>Websocket pour la mise à jour</h5></li>
+					<li><h5>Json pour lire les communications</h5></li>
+				 </ul>
+    	   	</th>
+    	   	</tr>
+    		<tr>
+    	   	<th><h4>TESTS</h4></th>
+    	   	<th>
+    	   		<ul class="no-bullet">
+    	   			<li><h5>Junit la base</h5></li>
+					<li><h5>Mockito pour les tests sur servlet</h5></li>
+				 </ul>
+    	   	</th>
+    	   </tr>
+    	</tbody>
+    	</table>	
+    	
+    	
         <script>   
           $(function() {
                $( "#datefin" ).datepicker();   
@@ -472,8 +517,6 @@
           $("#datefin").keypress(function(e) {
               e.preventDefault();
           });
-
-
         </script>
         <script>
         function start(){
