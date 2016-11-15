@@ -1,14 +1,16 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <title>Informatique Distribuée Objet Distribuée</title>
         
-        <link rel="stylesheet" href="css/foundation.css">
-    	<link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="<c:url value="/static/css/foundation.css" />">
+    	<link rel="stylesheet" href="<c:url value="/static/css/app.css" />">
     
     </head>
     <body>
-        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="<c:url value="/js/jquery-3.1.1.min.js" />"></script>
         <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
    		<script type="text/javascript">
    		var COMPTEURS_INIT;
